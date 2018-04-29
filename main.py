@@ -10,7 +10,7 @@ def main():
 
     for i, dataset in enumerate(datasets):
         # Plot kdist plot to determine EPS param
-        kdist_data = get_kdist_data(dataset)
+        kdist_data = get_kdist_data(dataset, min_points)
         plot_data(kdist_data)
 
         # Get dbscan object

@@ -3,9 +3,9 @@ from typing import List
 from scipy.spatial.distance import euclidean
 
 
-def get_kdist_data(data: List[List]):
+def get_kdist_data(data: List[List], min_points):
     distances = get_distances(data)
-    knn_distances = get_kth_nearest_neighbors_distances(k=4, distances=distances)
+    knn_distances = get_kth_nearest_neighbors_distances(k=min_points, distances=distances)
     return create_kdist_data(knn_distances)
 
 
