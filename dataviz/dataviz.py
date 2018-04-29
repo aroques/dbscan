@@ -8,12 +8,11 @@ import pandas as pd
 import seaborn as sns
 
 
-def plot_clusters(clusters: List[List], centroids: List[List], labels: List[int]) -> None:
-    """Plot custer data.
+def plot_labeled_data(data: List[List], labels: List[int]) -> None:
+    """Plot labeled data.
 
     Args:
-        clusters: Cluster data to plot.
-        centroids: Centroids of clusters
+        data: Data to plot.
         labels: The cluster each point belongs to.
 
     Returns:
@@ -21,19 +20,14 @@ def plot_clusters(clusters: List[List], centroids: List[List], labels: List[int]
     """
 
     # Setup needed to construct plot
-    num_clusters = len(set(labels))
-    markers = get_markers(num_clusters)
-    palette = get_palette(num_clusters)
+    num_labels = len(set(labels))
+    markers = get_markers(num_labels)
+    palette = get_palette(num_labels)
     columns = ['x', 'y']
 
     # Get dataframe for data
-    df = pd.DataFrame(clusters, columns=columns)
+    df = pd.DataFrame(data, columns=columns)
     df['labels'] = pd.Series(labels, index=df.index)  # Add labels as a column for coloring
-
-    # Add centroids to dataframe
-    centroids_df = pd.DataFrame(centroids, columns=columns)
-    centroids_df['labels'] = ['centroid' for _ in range(len(centroids))]
-    df = df.append(centroids_df, ignore_index=True)
 
     # Plot
     sns.lmplot(*columns, data=df, fit_reg=False, legend=False,
@@ -65,18 +59,17 @@ def plot_data(data: List[List]) -> None:
     plt.show()
 
 
-def get_markers(num_clusters):
+def get_markers(num_markers):
     random = Random(0)
     markers = ['*', 'o', '^', '+']
-    markers = random.sample(markers, num_clusters)
-    markers.append('x')
+    markers = random.sample(markers, num_markers)
     return markers
 
 
-def get_palette(num_clusters):
+def get_palette(num_colors):
     random = Random(0)
     colors = ['blue', 'orange', 'green', 'purple']
-    colors = random.sample(colors, num_clusters)
+    colors = random.sample(colors, num_colors)
     colors.append('red')
     return colors
 

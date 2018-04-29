@@ -3,7 +3,7 @@ from typing import List
 from scipy.spatial.distance import euclidean
 
 
-def get_kdist_data(data: List[List], min_points) -> List[tuple]:
+def get_kdist_data(data: List[List], min_points) -> List[List]:
     """Get kdist data that can be plotted to determine EPS param for DBScan algorithm."""
     distances = get_distances(data)
     knn_distances = get_kth_nearest_neighbors_distances(k=min_points, distances=distances)
