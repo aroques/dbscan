@@ -5,8 +5,8 @@ from dbscan import DBScan, get_kdist_data
 def main():
     datasets = get_datasets()
 
-    min_points = 4
-    eps = [17, 16, 8]
+    min_points = 5
+    eps = [17, 17, 8]
 
     for i, dataset in enumerate(datasets):
         # Plot kdist plot to determine EPS param
@@ -15,8 +15,8 @@ def main():
 
         # Get dbscan object
         dbscan = DBScan(min_points, eps[i])
-        labels = dbscan.fit(dataset)
-        plot_labeled_data(dataset, labels)
+        dbscan.fit(dataset)
+        plot_labeled_data(dataset, dbscan.cluster_labels)
 
 
 if __name__ == '__main__':

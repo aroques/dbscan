@@ -3,17 +3,54 @@ from scipy.spatial.distance import euclidean
 
 
 class DBScan:
-    def __init__(self, min_points, eps):
+    def __init__(self, min_points, epsilon):
         self.min_points = min_points
-        self.eps = eps
+        self.epsilon = epsilon
+        self.point_labels = None
+        self.cluster_labels = None
 
     def fit(self, data: List[List]) -> List:
         # Label all data as a core, border, or noise point
         neighborhoods = self.__get_neighborhoods(data)
-        labels = self.__label_core_points(neighborhoods)
-        labels = self.__label_border_and_noise_points(data, labels, neighborhoods)
-        return labels
-        # Then perform algorithm on the slide
+
+        point_labels = self.__label_core_points(neighborhoods)
+        self.point_labels = self.__label_border_and_noise_points(data, point_labels, neighborhoods)
+
+        core_points = self.__get_core_points(data, point_labels)
+
+        self.cluster_labels = self.__get_cluster_labels(core_points, data, neighborhoods)
+
+    def __get_cluster_labels(self, core_points, data, neighborhoods):
+        cluster_labels = [-1 for _ in range(len(data))]
+        current_cluster_label = 0
+        for core_point in core_points:
+            index = data.index(core_point)
+            if cluster_labels[index] == -1:
+                current_cluster_label += 1
+                cluster_labels[index] = current_cluster_label
+            neighborhood = neighborhoods[index]
+            cluster_labels = self.__label_points_in_neighborhood(cluster_labels, core_point,
+                                                                 current_cluster_label, data, neighborhood)
+        return cluster_labels
+
+    @staticmethod
+    def __label_points_in_neighborhood(cluster_labels, core_point, current_cluster_label, data, neighborhood):
+        for point in neighborhood:
+            if point == core_point:
+                continue
+            index = data.index(point)
+            if cluster_labels[index] == -1:
+                cluster_labels[index] = current_cluster_label
+        return cluster_labels
+
+    @staticmethod
+    def __get_core_points(data, point_labels):
+        core_points = []
+        for i, label in enumerate(point_labels):
+            if label != 'core':
+                continue
+            core_points.append(data[i])
+        return core_points
 
     def __label_border_and_noise_points(self, data, labels, neighborhoods):
         """Labels borders and noise points.
@@ -94,7 +131,6 @@ class DBScan:
     def __get_points_in_neighborhood(self, data, this_point):
         """Get a list of points that are in the neighborhood of this_point.
 
-
         Args:
             data: A dataset.
             this_point: A data point.
@@ -108,6 +144,6 @@ class DBScan:
             if this_point == point:
                 continue
             distance = euclidean(this_point, point)
-            if distance < self.eps:
+            if distance < self.epsilon:
                 points_in_neighborhood.append(point)
         return points_in_neighborhood
