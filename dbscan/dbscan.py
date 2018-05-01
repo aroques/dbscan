@@ -11,6 +11,8 @@ class DBScan:
         self.cluster_labels = None
 
     def fit(self, data):
+        data = numpy.array(data)
+
         labels = [0] * len(data)
 
         cluster_id = 0
@@ -49,13 +51,13 @@ class DBScan:
                     neighbor_points = neighbor_points + neighbor_point_neighborhood
             i += 1
 
-    def region_query(self, data, point):
+    def region_query(self, data, this_point):
         neighbors = []
 
-        for Pn in range(0, len(data)):
+        for point in range(0, len(data)):
 
-            if numpy.linalg.norm(data[point] - data[Pn]) < self.epsilon:
-                neighbors.append(Pn)
+            if numpy.linalg.norm(data[this_point] - data[point]) < self.epsilon:
+                neighbors.append(point)
 
         return neighbors
 
