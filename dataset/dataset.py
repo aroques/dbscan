@@ -13,7 +13,7 @@ def get_datasets() -> List:
 
     """
     datasets = defaultdict(list)
-    with open('dataviz/dataset_parameters.csv', newline='') as csv_file:
+    with open('dataset/dataset_parameters.csv', newline='') as csv_file:
         reader = csv.DictReader(csv_file)
         for row in reader:
             # Parse the row for dataset parameters

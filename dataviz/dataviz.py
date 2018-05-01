@@ -55,7 +55,7 @@ def plot_data(data: List[List]) -> None:
     # Get dataframe for data
     df = pd.DataFrame(data, columns=columns)
 
-    size_of_point = 35
+    size_of_point = 20
 
     # Plot
     sns.lmplot(*columns, data=df, fit_reg=False, legend=False, scatter_kws={'s': size_of_point})
@@ -63,14 +63,14 @@ def plot_data(data: List[List]) -> None:
 
 
 def get_markers(num_markers):
-    random = Random(0)
+    random = Random(3)
     markers = ['*', 'o', '^', '+', 's', 'p', 'D', '8', '<', '>', '1', '2', '3', 'h', 'H', 'x', 'v', '_', 'd', ',']
-    markers = random.population(population=markers, k=num_markers)
+    markers = random.sample(population=markers, k=num_markers)
     return markers
 
 
 def get_palette(num_colors):
-    random = Random(0)
+    random = Random(3)
     colors = ['blue', 'orange', 'green', 'purple', 'brown', 'black', 'pink', 'magenta', 'gray',
               'lime', 'teal', 'navy', 'plum', 'olive', 'fuchsia', 'red']
     colors = random.sample(population=colors, k=num_colors)
