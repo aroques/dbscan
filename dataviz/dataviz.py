@@ -14,6 +14,7 @@ def plot_labeled_data(data: List[List], labels: List[int]) -> None:
     Args:
         data: Data to plot.
         labels: The cluster each point belongs to.
+        core_points: core points
 
     Returns:
         None
@@ -28,6 +29,11 @@ def plot_labeled_data(data: List[List], labels: List[int]) -> None:
     # Get dataframe for data
     df = pd.DataFrame(data, columns=columns)
     df['labels'] = pd.Series(labels, index=df.index)  # Add labels as a column for coloring
+
+    # # Add core points to dataframe
+    # corepoints_df = pd.DataFrame(core_points, columns=columns)
+    # corepoints_df['labels'] = ['centroid' for _ in range(len(corepoints_df))]
+    # df = df.append(corepoints_df, ignore_index=True)
 
     # Plot
     sns.lmplot(*columns, data=df, fit_reg=False, legend=False,
@@ -61,16 +67,16 @@ def plot_data(data: List[List]) -> None:
 
 def get_markers(num_markers):
     random = Random(0)
-    markers = ['*', 'o', '^', '+']
-    markers = random.choices(population=markers, k=num_markers)
+    markers = ['*', 'o', '^', '+', 's', 'p', 'D', '8', '<', '>', '1', '2', '3', 'h', 'H', 'x', 'v', '_', 'd', ',']
+    markers = random.population(population=markers, k=num_markers)
     return markers
 
 
 def get_palette(num_colors):
     random = Random(0)
-    colors = ['blue', 'orange', 'green', 'purple', 'red']
-    colors = random.choices(population=colors, k=num_colors)
-    colors.append('red')
+    colors = ['blue', 'orange', 'green', 'purple', 'brown', 'black', 'pink', 'magenta', 'gray',
+              'lime', 'teal', 'navy', 'plum', 'olive', 'fuchsia', 'red']
+    colors = random.sample(population=colors, k=num_colors)
     return colors
 
 
