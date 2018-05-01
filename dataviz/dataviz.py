@@ -64,15 +64,14 @@ def plot_data(data: List[List]) -> None:
 
 def get_markers(num_markers):
     random = Random(3)
-    markers = ['*', 'o', '^', '+', 's', 'p', 'D', '8', '<', '>', '1', '2', '3', 'h', 'H', 'x', 'v', '_', 'd', ',']
+    markers = ['*', 'o', '^', '+', 'x']
     markers = random.sample(population=markers, k=num_markers)
     return markers
 
 
 def get_palette(num_colors):
     random = Random(3)
-    colors = ['blue', 'orange', 'green', 'purple', 'brown', 'black', 'pink', 'magenta', 'gray',
-              'lime', 'teal', 'navy', 'plum', 'olive', 'fuchsia', 'red']
+    colors = ['blue', 'darkgreen', 'purple', 'red']
     colors = random.sample(population=colors, k=num_colors)
     return colors
 

@@ -1,6 +1,6 @@
 from dataviz import plot_data, plot_labeled_data
 from dataset import get_datasets
-from dbscan import DBScan, get_kdist_data
+from dbscan import DBSCAN, get_kdist_data
 
 
 def main():
@@ -15,10 +15,17 @@ def main():
         plot_data(kdist_data)
 
         # Get dbscan object
-        dbscan = DBScan(min_points, eps[i])
+        dbscan = DBSCAN(min_points, eps[i])
 
         labels = dbscan.fit(dataset)
+        print()
+        for i, label in enumerate(labels):
+            if i % 12 == 0:
+                print()
+            print('{}, '.format(label), end='')
+
         plot_labeled_data(dataset, labels)
+        print()
 
 
 if __name__ == '__main__':
