@@ -18,14 +18,19 @@ def main():
         dbscan = DBSCAN(min_points, eps[i])
 
         labels = dbscan.fit(dataset)
-        print()
-        for i, label in enumerate(labels):
-            if i % 12 == 0:
-                print()
-            print('{}, '.format(label), end='')
+
+        print_labels(labels)
 
         plot_labeled_data(dataset, labels)
-        print()
+
+
+def print_labels(labels):
+    print()
+    for i, label in enumerate(labels):
+        if i % 12 == 0:
+            print()
+        print('{}, '.format(label), end='')
+    print()
 
 
 if __name__ == '__main__':
